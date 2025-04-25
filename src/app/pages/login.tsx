@@ -1,11 +1,19 @@
 import { Box, Button, Card, CardContent, Stack, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { InputPassword } from "../components/form/input.password";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginValidations } from "../lib/domain/auth/validations/login.validations";
 
 export const LoginPage = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const { handleSubmit } = useForm({
+    const {
+        control,
+        handleSubmit,
+    } = useForm({
+        resolver: zodResolver(loginValidations),
+        mode: 'onChange',
         defaultValues: {
             username: '',
             password: '',
@@ -80,11 +88,12 @@ export const LoginPage = () => {
                                     required
                                 />
 
-                                <TextField
-                                    variant="filled"
-                                    name="password"
+                                <InputPassword
+                                    id="password"
                                     label="Contraseña"
-                                    required
+                                    name="password"
+                                    control={control}
+
                                 />
 
                                 <Box sx={{
