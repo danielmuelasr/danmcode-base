@@ -1,16 +1,12 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Box, Button, Card, CardContent, Stack, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Box, Button, Card, CardContent, useMediaQuery, useTheme } from "@mui/material";
+import { Banner } from "../components/auth/banner";
+import { RememberPasswordForm } from "../components/auth/remember.password.form";
 
 export const RememberPassword = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const { handleSubmit } = useForm({
-        defaultValues: {
-            username: '',
-        },
-    });
     return (
         <Box
             sx={{
@@ -39,53 +35,15 @@ export const RememberPassword = () => {
                 }}
             >
                 {!isMobile && (
-                    <Box
-                        sx={{
-                            width: '50%',
-                            backgroundColor: '#009688',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            color: '#fff',
-                            flexDirection: 'column',
-                            padding: 4,
-                        }}
-                    >
-                        <Typography variant="h4" sx={{ textAlign: 'center' }} fontWeight={700}>
-                            ¿Olvidaste tu contraseña?
-                        </Typography>
-                        <Typography variant="body1" sx={{ mt: 2, textAlign: 'center' }}>
-                            Tranquilo, ingresa tu nombre de usuario y la recuperaremos
-                        </Typography>
-                    </Box>
+                    <Banner
+                        title="¿Olvidaste tu contraseña?"
+                        subtitle="Ingresa tu nombre de usuario y la recuperaremos"
+                    />
                 )}
 
                 <Box sx={{ width: isMobile ? '100%' : '50%' }}>
                     <CardContent >
-                        <form
-                            onSubmit={handleSubmit(async (data) => {
-                                console.log(data);
-                            })}
-                            noValidate
-                        >
-                            <Stack spacing={2}>
-                                <Typography variant="h6">Recordar contraseña</Typography>
-
-                                <TextField
-                                    variant="filled"
-                                    name="username"
-                                    label="Usuario"
-                                    fullWidth
-                                    required
-                                />
-
-                                <Button variant="contained" type="submit">
-                                    Recuperar contraseña
-                                </Button>
-
-
-                            </Stack>
-                        </form>
+                        <RememberPasswordForm />
                     </CardContent>
                     <Box sx={{
                         mb: 2,
