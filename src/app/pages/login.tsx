@@ -1,8 +1,9 @@
-import { Box, Button, Card, CardContent, Stack, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, CardContent, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { InputPassword } from "../components/form/input.password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginValidations } from "../lib/domain/auth/validations/login.validations";
+import { Input } from "../components/form/input";
 
 export const LoginPage = () => {
     const theme = useTheme();
@@ -80,12 +81,11 @@ export const LoginPage = () => {
                             <Stack spacing={2}>
                                 <Typography variant="h6">Iniciar sesión</Typography>
 
-                                <TextField
-                                    variant="filled"
-                                    name="username"
+                                <Input
+                                    id="username"
                                     label="Usuario"
-                                    fullWidth
-                                    required
+                                    name="username"
+                                    control={control}
                                 />
 
                                 <InputPassword
@@ -93,7 +93,6 @@ export const LoginPage = () => {
                                     label="Contraseña"
                                     name="password"
                                     control={control}
-
                                 />
 
                                 <Box sx={{
