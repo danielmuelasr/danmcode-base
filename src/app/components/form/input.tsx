@@ -12,13 +12,12 @@ interface InputProps<T extends FieldValues> {
 export const Input = <T extends FieldValues>(props: InputProps<T>) => {
     const { label, id, name, control, type = 'text' } = props;
 
-
     return (
         <Controller
             name={name}
             control={control}
             render={({ field, fieldState: { error } }) => (
-                <FormControl variant="filled" error={!!error} required>
+                <FormControl variant="filled" error={!!error} required fullWidth>
                     <InputLabel>{label}</InputLabel>
                     <FilledInput
                         id={id}

@@ -1,53 +1,37 @@
-import { UseFormGetValues } from 'react-hook-form';
+import { z } from 'zod';
 
-export interface SignUpFormFields {
-    fullname: string;
-    email: string;
-    username: string;
-    password: string;
-    confirm_password: string;
-}
-
-export const signupValidationRules = (getValues: UseFormGetValues<SignUpFormFields>) => ({
-    fullname: {
-        required: 'El nombre completo es obligatorio',
-        minLength: {
-            value: 3,
-            message: 'El nombre completo debe tener al menos 3 caracteres',
-        },
-    },
-    username: {
-        required: 'El nombre de usuario es obligatorio',
-        minLength: {
-            value: 3,
-            message: 'El nombre de usuario debe tener al menos 3 caracteres',
-        },
-    },
-    email: {
-        required: 'El correo electrónico es obligatorio',
-        minLength: {
-            value: 3,
-            message: 'El correo debe tener al menos 3 caracteres',
-        },
-        pattern: {
-            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: 'Ingresa un correo electrónico válido',
-        },
-    },
-    password: {
-        required: 'La contraseña es obligatoria',
-        minLength: {
-            value: 8,
-            message: 'La contraseña debe tener al menos 8 caracteres',
-        },
-    },
-    confirm_password: {
-        required: 'Por favor confirma la contraseña',
-        minLength: {
-            value: 8,
-            message: 'La contraseña debe tener al menos 8 caracteres',
-        },
-        validate: (value: string) =>
-            value === getValues('password') || 'Las contraseñas no coinciden',
-    },
-});
+export const signupValidations = z
+    .object({
+        fullname: z
+            .string()
+            .nonempty('El nombre completo es obligatorio')
+            .min(3, 'El nombre completo debe tener al menos 3 caracteres')
+            .max(100, 'El nombre completo no debe exceder los 100 caracteres'),
+        username: z
+            .string()
+            .nonempty('El nombre de usuario es obligatorio')
+            .min(3, 'El nombre de usuario debe tener al menos 3 caracteres')
+            .max(20, 'El nombre de usuario no debe exceder los 20 caracteres'),
+        email: z
+            .string()
+            .nonempty('El correo electrónico es obligatorio')
+            .min(3, 'El correo electrónico debe tener al menos 3 caracteres')
+            .max(100, 'El correo electrónico no debe exceder los 100 caracteres')
+            .email('Ingresa un correo electrónico válido'),
+        password: z
+            .string()
+            .nonempty('La contraseña es obligatoria')
+            .min(8, 'La contraseña debe tener al menos 8 caracteres')
+            .max(100, 'La contraseña no debe exceder los 100 caracteres')
+            .regex(/[a-z]/, "La contraseña debe tener al menos una letra minúscula")
+            .regex(/[A-Z]/, "La contraseña debe tener al menos una letra mayúscula")
+            .regex(/\d/, "La contraseña debe tener al menos un número")
+            .regex(/[@$!%*?&#]/, "La contraseña debe tener al menos un símbolo especial"),
+        confirm_password: z
+            .string()
+            .nonempty('Por favor confirma la contraseña')
+            .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    }).refine((data) => data.password === data.confirm_password, {
+    message: "Las contraseñas deben coincidir",
+    path: ["confirm_password"],
+  });
