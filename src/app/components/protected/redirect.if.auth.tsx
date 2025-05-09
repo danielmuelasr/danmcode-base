@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/auth.context';
 
-type ProtectedRouteProps = {
+type RedirectIfAuthenticatedProps = {
     children: React.ReactNode;
 };
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const RedirectIfAuthenticated: React.FC<RedirectIfAuthenticatedProps> = ({ children }) => {
     const { isAuthenticated, isLoading, checkAuthStatus } = useAuth();
 
     useEffect(() => {
@@ -17,11 +17,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         return <div>Loading...</div>;
     }
 
-    if (!isAuthenticated) {
-        return <Navigate to="/login" replace />;
+    if (isAuthenticated) {
+        return <Navigate to="/dashboard" replace />;
     }
 
     return <>{children}</>;
 };
 
-export default ProtectedRoute;
+export default RedirectIfAuthenticated;

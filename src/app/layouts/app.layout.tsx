@@ -3,7 +3,7 @@ import { DashboardLayout, PageContainer, type Navigation, type Session } from '@
 import { Person, Login, ListAlt, Home } from '@mui/icons-material';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import theme from '../../theme/theme';
-import danmcodeIcon from '../../assets/icons/danmcode-icon-black.png';
+import pisaIcon from '../../assets/icons/pisa.svg';
 import { useMemo, useState } from 'react';
 import { useAuth } from '../contexts/auth.context';
 
@@ -44,7 +44,7 @@ const NAVIGATION: Navigation = [
 ];
 
 const BRANDING = {
-    logo: < img src={danmcodeIcon} alt="Danmcode icon" />,
+    logo: < img src={pisaIcon} alt="Danmcode icon" />,
     title: '',
 };
 

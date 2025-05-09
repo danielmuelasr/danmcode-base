@@ -4,9 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { Input } from "../form/input";
 import { InputPassword } from "../form/input.password";
+import { AuthService } from "../../lib/services/auth.service";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
 export const SignupForm = () => {
+
+    const navigate = useNavigate();
+    const [signupErrors, setSignupErrors] = useState<string[] | string | null>(null);
 
     const {
         control,
@@ -25,7 +31,16 @@ export const SignupForm = () => {
 
     return (
         <form action="POST" onSubmit={handleSubmit(async (data) => {
-            console.log(data);
+            try {
+                const userCreated = await AuthService.signUp(data);
+                if (userCreated) {
+                    console.log('Usuario creado con éxito:', userCreated);
+                    navigate('/login');
+                }
+            } catch (error: any) {
+                console.error('Error al crear el usuario:', error);
+                setSignupErrors(error.data?.error || error.data?.errors || 'Error desconocido');
+            }
         })} noValidate>
             <Box sx={{ flexGrow: 1 }}>
                 <Stack spacing={2}>

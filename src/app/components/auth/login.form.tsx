@@ -14,7 +14,7 @@ export const LoginForm = () => {
     const [loginError, setLoginError] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const { login, error } = useAuth();
+    const { login, error, isLoading } = useAuth();
 
     const {
         control,
@@ -95,7 +95,7 @@ export const LoginForm = () => {
                         </Button>
                     </Box>
 
-                    <Button variant="contained" type="submit">
+                    <Button variant="contained" type="submit" loading={isLoading}>
                         Iniciar sesión
                     </Button>
 

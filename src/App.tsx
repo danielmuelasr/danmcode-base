@@ -9,6 +9,7 @@ import { DashboardPage } from './app/pages/dashboard'
 import { RememberPassword } from './app/pages/remember.password'
 import { AuthProvider } from './app/providers/auth.provider'
 import ProtectedRoute from './app/components/protected/protected.route'
+import RedirectIfAuthenticated from './app/components/protected/redirect.if.auth'
 
 function App() {
   return (
@@ -17,7 +18,11 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route element={<AuthLayout />}>
+            <Route element={
+              <RedirectIfAuthenticated>
+                <AuthLayout />
+              </RedirectIfAuthenticated>
+            }>
               <Route path="/" element={<LoginPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />

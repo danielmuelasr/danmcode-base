@@ -7,6 +7,7 @@ type AuthContextType = {
     isLoading: boolean;
     login: (username: string, password: string) => Promise<boolean>;
     logout: () => void;
+    checkAuthStatus: () => void;
     error: string | null;
 }
 

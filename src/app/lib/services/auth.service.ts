@@ -9,7 +9,18 @@ export class AuthService {
     static async login(data: {}): Promise<any | null> {
         try {
             const response = await postResource('auth/login', data);
+            console.log(response);
             return response;
+        } catch (error) {
+            AuthService.handleError(error);
+            return [];
+        }
+    }
+
+    static async signUp(data: {}): Promise<any | null> {
+        try {
+            const response = await postResource('auth/sign-up', data);
+            return new User(response.user);
         } catch (error) {
             AuthService.handleError(error);
             return [];

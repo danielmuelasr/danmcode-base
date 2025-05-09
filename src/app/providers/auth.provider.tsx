@@ -1,42 +1,51 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { User } from "../lib/domain/models/user.model";
 import { AuthContext } from "../contexts/auth.context";
 import { AuthService } from "../lib/services/auth.service";
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const checkAuth = async () => {
+    const checkAuthStatus = useCallback(() => {
+        setIsLoading(true);
+        try {
             const token = sessionStorage.getItem('auth_token');
 
             if (token) {
-                try {
-                    const userData = await AuthService.refreshToken(token);
-                    console.log('userData', userData);
-                } catch (err) {
-                    // Token is invalid, clear the storage
-                    sessionStorage.removeItem('auth_token');
-                    sessionStorage.removeItem('user_data');
+                setIsAuthenticated(true);
+                const userData = sessionStorage.getItem('user_data');
+                if (userData) {
+                    setUser(JSON.parse(userData));
                 }
+            } else {
+                setIsAuthenticated(false);
+                setUser(null);
             }
-
+        } catch (error) {
+            console.error('Auth check failed:', error);
+            setIsAuthenticated(false);
+            setUser(null);
+        } finally {
             setIsLoading(false);
-        };
-
-        checkAuth();
+        }
     }, []);
+
+    useEffect(() => {
+        checkAuthStatus();
+    }, [checkAuthStatus]);
+
 
     const login = async (username: string, password: string): Promise<boolean> => {
         setError(null);
         setIsLoading(true);
 
         try {
-            const { user, token } = await AuthService.login({ username, password });
+            const { user, tokens } = await AuthService.login({ username, password });
 
-            sessionStorage.setItem('auth_token', token);
+            sessionStorage.setItem('auth_token', tokens.token);
             sessionStorage.setItem('user_data', JSON.stringify(user));
 
             setUser(user);
@@ -67,10 +76,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const value = {
         user,
-        isAuthenticated: !!user,
+        isAuthenticated,
         isLoading,
         login,
         logout,
+        checkAuthStatus,
         error,
     };
 
