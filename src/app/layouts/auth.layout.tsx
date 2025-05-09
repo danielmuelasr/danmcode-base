@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link, Outlet } from 'react-router-dom';
 import { Container } from '@mui/material';
+import { useState } from 'react';
 
 interface Props {
     window?: () => Window;
@@ -27,8 +27,9 @@ const navItems = [
 ];
 
 export default function AuthLayout(props: Props) {
+
     const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);

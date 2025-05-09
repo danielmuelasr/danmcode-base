@@ -5,13 +5,16 @@ import { loginValidations } from "../../lib/domain/auth/validations/login.valida
 import { Input } from "../form/input";
 import { InputPassword } from "../form/input.password";
 import { useState } from "react";
-import { loginHandler } from "../../lib/domain/auth/handlers/login.handler";
 import { CustomAlert } from "../alerts/custom.alert";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/auth.context";
 
 export const LoginForm = () => {
 
     const [loginError, setLoginError] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
     const {
         control,
@@ -24,6 +27,7 @@ export const LoginForm = () => {
             password: '',
         },
     });
+
 
     return (
         <>
@@ -40,7 +44,15 @@ export const LoginForm = () => {
 
             <form
                 onSubmit={handleSubmit(async (data) => {
-                    loginHandler(data, setLoginError, setOpen);
+                    try {
+                        if (await login(data.username, data.password)) {
+                            navigate('/dashboard');
+                        }
+                    } catch (error: any) {
+                        console.error('error', error);
+                        setLoginError(error.data?.error || error.data?.errors?.[0]?.msg || 'Error desconocido');
+                        setOpen(true);
+                    }
                 })}
                 noValidate
             >

@@ -7,25 +7,27 @@ import { LoginPage } from './app/pages/login'
 import { SignupPage } from './app/pages/signup'
 import { DashboardPage } from './app/pages/dashboard'
 import { RememberPassword } from './app/pages/remember.password'
+import { AuthProvider } from './app/providers/auth.provider'
 
 function App() {
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <Routes>
-          <Route element={<AuthLayout />}>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/remember-password" element={<RememberPassword />} />
-          </Route>
+        <AuthProvider>
+          <Routes>
+            <Route element={<AuthLayout />}>
+              <Route path="/" element={<LoginPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/remember-password" element={<RememberPassword />} />
+            </Route>
 
-          <Route element={<AppLayout />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
-          </Route>
-        </Routes>
+            <Route element={<AppLayout />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+            </Route>
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   )
