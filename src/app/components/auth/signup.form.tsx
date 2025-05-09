@@ -40,6 +40,7 @@ export const SignupForm = () => {
             } catch (error: any) {
                 console.error('Error al crear el usuario:', error);
                 setSignupErrors(error.data?.error || error.data?.errors || 'Error desconocido');
+                console.log(signupErrors)
             }
         })} noValidate>
             <Box sx={{ flexGrow: 1 }}>

@@ -13,6 +13,10 @@ const RedirectIfAuthenticated: React.FC<RedirectIfAuthenticatedProps> = ({ child
         checkAuthStatus();
     }, [checkAuthStatus]);
 
+    if (!isAuthenticated) {
+        return <>{children}</>;
+    }
+
     if (isLoading) {
         return <div>Loading...</div>;
     }

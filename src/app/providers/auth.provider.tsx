@@ -25,7 +25,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 setUser(null);
             }
         } catch (error) {
-            console.error('Auth check failed:', error);
             setIsAuthenticated(false);
             setUser(null);
         } finally {
@@ -52,7 +51,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setIsLoading(false);
             return true;
         } catch (err: any) {
-            console.error();
             setError(err.data.errors[0].msg || 'Login failed');
             setIsLoading(false);
             return false;
