@@ -6,8 +6,6 @@ export const LoginPage = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-
-
     return (
         <Box
             sx={{
@@ -35,7 +33,7 @@ export const LoginPage = () => {
                     margin: 2,
                 }}
             >
-                {!isMobile && (<Banner />)}
+                {!isMobile && (<Banner title="Análisis de comisiones" subtitle="Protécnica Ingeniería" />)}
 
                 <Box sx={{ width: isMobile ? '100%' : '50%' }}>
                     <CardContent>

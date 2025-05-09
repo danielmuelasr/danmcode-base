@@ -36,15 +36,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
             const { user, token } = await AuthService.login({ username, password });
 
-            // Store in sessionStorage (more secure than localStorage)
             sessionStorage.setItem('auth_token', token);
             sessionStorage.setItem('user_data', JSON.stringify(user));
 
             setUser(user);
             setIsLoading(false);
             return true;
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Login failed');
+        } catch (err: any) {
+            console.error();
+            setError(err.data.errors[0].msg || 'Login failed');
             setIsLoading(false);
             return false;
         }

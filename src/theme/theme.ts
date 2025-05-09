@@ -70,13 +70,13 @@ const theme = createTheme({
                     backgroundColor: '#F1F5F9',
                     borderRadius: '0.5rem',
                     '&:before': {
-                        borderBottom: '1px solid #048068',
+                        borderBottom: '1px solid #2459a3',
                     },
                     '&:hover:before': {
-                        borderBottom: '1px solid #048068',
+                        borderBottom: '1px solid #2459a3',
                     },
                     '&.Mui-focused:before': {
-                        borderBottom: '2px solid #048068',
+                        borderBottom: '2px solid #2459a3',
                     },
                 },
                 input: {
@@ -121,7 +121,7 @@ const theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#048068',
+            main: '#2459a3',
             contrastText: '#FFFFFF',
         },
         secondary: {

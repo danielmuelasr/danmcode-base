@@ -13,7 +13,7 @@ export const Banner = (props: BannerProps) => {
         <Box
             sx={{
                 width: '50%',
-                backgroundColor: '#009688',
+                backgroundColor: '#2459a3',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',

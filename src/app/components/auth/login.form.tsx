@@ -14,7 +14,7 @@ export const LoginForm = () => {
     const [loginError, setLoginError] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, error } = useAuth();
 
     const {
         control,
@@ -45,11 +45,14 @@ export const LoginForm = () => {
             <form
                 onSubmit={handleSubmit(async (data) => {
                     try {
+
                         if (await login(data.username, data.password)) {
                             navigate('/dashboard');
+                        } else {
+                            setLoginError(error);
+                            setOpen(true);
                         }
                     } catch (error: any) {
-                        console.error('error', error);
                         setLoginError(error.data?.error || error.data?.errors?.[0]?.msg || 'Error desconocido');
                         setOpen(true);
                     }

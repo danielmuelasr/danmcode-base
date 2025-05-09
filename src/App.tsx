@@ -8,6 +8,7 @@ import { SignupPage } from './app/pages/signup'
 import { DashboardPage } from './app/pages/dashboard'
 import { RememberPassword } from './app/pages/remember.password'
 import { AuthProvider } from './app/providers/auth.provider'
+import ProtectedRoute from './app/components/protected/protected.route'
 
 function App() {
   return (
@@ -23,7 +24,11 @@ function App() {
               <Route path="/remember-password" element={<RememberPassword />} />
             </Route>
 
-            <Route element={<AppLayout />}>
+            <Route element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }>
               <Route path="/dashboard" element={<DashboardPage />} />
             </Route>
           </Routes>
