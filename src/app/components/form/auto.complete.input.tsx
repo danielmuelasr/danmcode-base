@@ -1,4 +1,4 @@
-import { Autocomplete, AutocompleteProps, FormControl, FormHelperText, TextField } from "@mui/material";
+import { Autocomplete, FormControl, FormHelperText, TextField } from "@mui/material";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 interface AutocompleteInputProps<
@@ -14,6 +14,7 @@ interface AutocompleteInputProps<
     name: Path<T>;
     options: Option[];
     getOptionLabel: (option: Option) => string;
+    getOptionValue?: (option: Option) => string;
     isOptionEqualToValue?: (option: Option, value: Option) => boolean;
     multiple?: Multiple;
     disableClearable?: DisableClearable;
@@ -39,6 +40,7 @@ export const AutocompleteInput = <
         control,
         options,
         getOptionLabel,
+        getOptionValue,
         isOptionEqualToValue,
         multiple = false as Multiple,
         disableClearable = false as DisableClearable,
@@ -60,7 +62,12 @@ export const AutocompleteInput = <
                         }
                         isOptionEqualToValue={isOptionEqualToValue}
                         value={value}
-                        onChange={(_, data) => onChange(data)}
+                        onChange={(_, data: any) => {
+                            const processedValue = getOptionValue
+                                ? (data ? getOptionValue(data) : '')
+                                : (data ? getOptionLabel(data) : '');
+                            onChange(processedValue);
+                        }}
                         multiple={multiple}
                         disableClearable={disableClearable}
                         freeSolo={freeSolo}
@@ -72,7 +79,9 @@ export const AutocompleteInput = <
                                 placeholder={placeholder}
                                 variant="filled"
                                 inputRef={ref}
-                                value={value}
+                                value={typeof value === 'object' && value !== null
+                                    ? getOptionLabel(value)
+                                    : (value || '')}
                                 {...field}
                             />
                         )}

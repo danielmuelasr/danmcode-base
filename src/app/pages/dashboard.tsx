@@ -1,16 +1,11 @@
-import { Autocomplete, Button } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { Input } from '../components/form/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { GetSalesValidations } from '../lib/domain/auth/validations/get.sales.validations copy';
+import { GetSalesValidations } from '../lib/domain/auth/validations/get.sales.validations';
 import { AutocompleteInput } from '../components/form/auto.complete.input';
+import { Button } from '@mui/material';
 export const DashboardPage = () => {
-
-    const defaultProps = {
-        options: top100Films,
-        getOptionLabel: (option: any) => option.title,
-    };
 
     const { control, handleSubmit } = useForm({
         resolver: zodResolver(GetSalesValidations),
@@ -31,7 +26,8 @@ export const DashboardPage = () => {
                     control={control}
                     label="Vendedor"
                     options={top100Films}
-                    getOptionLabel={(option) => option.title}
+                    getOptionLabel={(option) => option.title.toString()}
+                    getOptionValue={(option) => option.title.toString()}
                     isOptionEqualToValue={(option, value) => option.year === value.year}
                 />
                 <Input

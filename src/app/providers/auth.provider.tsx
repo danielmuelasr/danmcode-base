@@ -27,6 +27,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         } catch (error) {
             setIsAuthenticated(false);
             setUser(null);
+            setIsLoading(false);
         } finally {
             setIsLoading(false);
         }

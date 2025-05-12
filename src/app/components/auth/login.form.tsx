@@ -14,7 +14,8 @@ export const LoginForm = () => {
     const [loginError, setLoginError] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const { login, error, isLoading } = useAuth();
+    const { login, error } = useAuth();
+    const [isLoadingForm, setIsLoadingForm] = useState(false);
 
     const {
         control,
@@ -44,17 +45,19 @@ export const LoginForm = () => {
 
             <form
                 onSubmit={handleSubmit(async (data) => {
+                    setIsLoadingForm(true);
                     try {
-
                         if (await login(data.username, data.password)) {
                             navigate('/dashboard');
                         } else {
                             setLoginError(error);
                             setOpen(true);
+                            setIsLoadingForm(false);
                         }
                     } catch (error: any) {
                         setLoginError(error.data?.error || error.data?.errors?.[0]?.msg || 'Error desconocido');
                         setOpen(true);
+                        setIsLoadingForm(false);
                     }
                 })}
                 noValidate
@@ -95,7 +98,7 @@ export const LoginForm = () => {
                         </Button>
                     </Box>
 
-                    <Button variant="contained" type="submit" loading={isLoading}>
+                    <Button variant="contained" type="submit" loading={isLoadingForm}>
                         Iniciar sesión
                     </Button>
 
